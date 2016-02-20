@@ -17,7 +17,7 @@ This library works perfectly with *[OpenGL](https://www.opengl.org)* but it also
 - [CUDA](https://developer.nvidia.com/about-cuda) 4.0 and higher (experimental)
 - Any conform C++98 or C++11 compiler
 
-For more information about *GLM*, please have a look at the [manual](http://glm.g-truc.net/0.9.6/glm-0.9.6.pdf) and the [API reference documentation](http://glm.g-truc.net/0.9.6/api/index.html).
+For more information about *GLM*, please have a look at the [manual](http://glm.g-truc.net/0.9.7/glm-0.9.7.pdf) and the [API reference documentation](http://glm.g-truc.net/0.9.7/api/index.html).
 The source code and the documentation are licensed under the [Happy Bunny License (Modified MIT) or the MIT License](./copying.txt).
 
 Thanks for contributing to the project by [submitting issues](https://github.com/g-truc/glm/issues) for bug reports and feature requests. Any feedback is welcome at [glm@g-truc.net](mailto://glm@g-truc.net).
@@ -28,10 +28,11 @@ Thanks for contributing to the project by [submitting issues](https://github.com
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
+#include <glm/gtc/constants.hpp> // glm::pi
 
 glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 {
-	glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
+	glm::mat4 Projection = glm::perspective(glm::pi<float>() * 0.25f, 4.0f / 3.0f, 0.1f, 100.f);
 	glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -Translate));
 	View = glm::rotate(View, Rotate.y, glm::vec3(-1.0f, 0.0f, 0.0f));
 	View = glm::rotate(View, Rotate.x, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -50,9 +51,60 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 
 ## Release notes
 
-#### [GLM 0.9.7.1](https://github.com/g-truc/glm/releases/latest) - 2015-XX-XX
+#### [GLM 0.9.8.0](https://github.com/g-truc/glm/releases/latest) - 2016-XX-XX
 ##### Features:
-- Added GLM_SIMD to enable automatic SIMD code generation for generic GLM types #235 #370
+- Added compNormalize and compScale functions to GTX_component_wise
+- Added packF3x9_E1x5 and unpackF3x9_E1x5 to GTC_packing for RGB9E5 #416
+- Added (un)packHalf to GTC_packing
+- Added (un)packUnorm and (un)packSnorm to GTC_packing
+- Added 16bit pack and unpack to GTC_packing
+- Added 8bit pack and unpack to GTC_packing
+- Added missing bvec* && and || operators
+
+##### Improvements:
+- Improved GTC_random linearRand documentation
+- Improved GTC_reciprocal documentation
+
+##### Fixes:
+- Fixed GTX_extended_min_max filename typo #386
+- Fixed intersectRayTriangle to not do any unintentional backface culling
+
+#### [GLM 0.9.7.3](https://github.com/g-truc/glm/tree/0.9.7) - 2016-XX-XX
+##### Improvements:
+- Added AVX512 detection
+
+##### Fixes:
+- Fixed CMake policy warning
+- Fixed GCC 6.0 detection
+
+#### [GLM 0.9.7.2](https://github.com/g-truc/glm/releases/tag/0.9.7.2) - 2016-01-03
+##### Fixes:
+- Fixed GTC_round floorMultiple/ceilMultiple #412
+- Fixed GTC_packing unpackUnorm3x10_1x2 #414
+- Fixed GTC_matrix_inverse affineInverse #192
+- Fixed ICC on Linux build errors #449
+- Fixed ldexp and frexp compilation errors
+- Fixed "Declaration shadows a field" warning #468
+- Fixed 'GLM_COMPILER_VC2005 is not defined' warning #468
+- Fixed various 'X is not defined' warnings #468
+- Fixed missing unary + operator #435
+- Fixed Cygwin build errors when using C++11 #405
+
+#### [GLM 0.9.7.1](https://github.com/g-truc/glm/releases/tag/0.9.7.1) - 2015-09-07
+##### Improvements:
+- Improved constexpr for constant functions coverage #198
+- Added to_string for quat and dual_quat in GTX_string_cast #375
+- Improved overall execution time of unit tests #396
+
+##### Fixes:
+- Fixed strict alignment warnings #235 #370
+- Fixed link errors on compilers not supported default function #377
+- Fixed compilation warnings in vec4
+- Fixed non-identity quaternions for equal vectors #234
+- Fixed excessive GTX_fast_trigonometry execution time #396
+- Fixed Visual Studio 2015 'hides class member' warnings #394
+- Fixed builtin bitscan never being used #392
+- Removed unused func_noise.* files #398
 
 #### [GLM 0.9.7.0](https://github.com/g-truc/glm/releases/tag/0.9.7.0) - 2015-08-02
 ##### Features:
